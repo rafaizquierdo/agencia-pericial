@@ -1,0 +1,1509 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modelo agencia pericial · 24m</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121933;
+      --panel-2: #182142;
+      --panel-3: #1f2a52;
+      --text: #e9edf7;
+      --muted: #9eabc9;
+      --line: rgba(255,255,255,0.08);
+      --accent: #74b9ff;
+      --accent-2: #6ee7b7;
+      --danger: #ff7a7a;
+      --warn: #ffd36a;
+      --ok: #78e08f;
+      --shadow: 0 18px 50px rgba(0,0,0,0.35);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: linear-gradient(180deg, #08101d 0%, #0b1020 100%); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { min-height: 100vh; }
+    .app {
+      display: grid;
+      grid-template-columns: minmax(360px, 430px) 1fr;
+      gap: 20px;
+      padding: 20px;
+      align-items: start;
+    }
+    .panel {
+      background: rgba(18, 25, 51, 0.9);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .left {
+      position: sticky;
+      top: 20px;
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      padding: 18px;
+    }
+    .right {
+      padding: 18px;
+      display: grid;
+      gap: 18px;
+    }
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    h1, h2, h3 {
+      margin: 0;
+      letter-spacing: -0.03em;
+    }
+    h1 { font-size: 1.5rem; line-height: 1.15; }
+    h2 { font-size: 1rem; }
+    h3 { font-size: 0.95rem; }
+    .subtle { color: var(--muted); font-size: 0.92rem; line-height: 1.45; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+    button, .file-button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.2s ease;
+    }
+    button:hover, .file-button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(116,185,255,0.45);
+    }
+    button.primary {
+      background: linear-gradient(180deg, rgba(116,185,255,0.32), rgba(116,185,255,0.16));
+      border-color: rgba(116,185,255,0.45);
+    }
+    button.danger {
+      border-color: rgba(255,122,122,0.35);
+    }
+    input, select {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 10px;
+      font-size: 0.92rem;
+    }
+    select option { color: #111; }
+    input[type="range"] {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      accent-color: #74b9ff;
+    }
+    .details {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      background: rgba(255,255,255,0.02);
+    }
+    details > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 12px 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.03);
+    }
+    details > summary::-webkit-details-marker { display: none; }
+    .summary-right {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+    .section-body { padding: 12px; display: grid; gap: 10px; }
+    .field {
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+    }
+    .field-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+    }
+    .field-label { font-weight: 650; }
+    .field-unit { color: var(--muted); }
+    .field-controls {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      gap: 10px;
+      align-items: center;
+    }
+    .field.only-number .field-controls {
+      grid-template-columns: 1fr;
+    }
+    .grid-2, .grid-3, .grid-4 {
+      display: grid;
+      gap: 12px;
+    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .card {
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    }
+    .kpi-label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 8px;
+      font-weight: 650;
+    }
+    .kpi-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+    .kpi-sub {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .chart-card {
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+    }
+    .chart-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .chart-meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .chart-svg {
+      width: 100%;
+      height: 240px;
+      display: block;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    }
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 780px;
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+    th:first-child, td:first-child { text-align: left; }
+    thead th {
+      position: sticky;
+      top: 0;
+      background: #162041;
+      z-index: 1;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #c9d5f2;
+    }
+    .badge {
+      display: inline-flex;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255,255,255,0.03);
+    }
+    .alerts {
+      display: grid;
+      gap: 10px;
+    }
+    .alert {
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    .alert.warn { background: rgba(255, 211, 106, 0.08); border-color: rgba(255, 211, 106, 0.18); }
+    .alert.ok { background: rgba(120, 224, 143, 0.08); border-color: rgba(120, 224, 143, 0.16); }
+    .alert.danger { background: rgba(255, 122, 122, 0.08); border-color: rgba(255, 122, 122, 0.16); }
+    .note {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .sens-cell {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+    }
+    .footer-note {
+      color: var(--muted);
+      font-size: 0.83rem;
+      line-height: 1.45;
+    }
+    .hidden { display: none !important; }
+    @media (max-width: 1200px) {
+      .app { grid-template-columns: 1fr; }
+      .left { position: static; max-height: none; }
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 760px) {
+      .app { padding: 12px; }
+      .left, .right { padding: 14px; }
+      .kpis { grid-template-columns: 1fr; }
+      .grid-2, .grid-3, .grid-4, .field-controls { grid-template-columns: 1fr; }
+      .hero { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="panel left">
+      <div class="hero">
+        <div>
+          <h1>Modelo agencia pericial</h1>
+          <div class="subtle">Versión web del modelo a 24 meses. Cambias inputs a la izquierda y ves el golpe en EBITDA, caja, backlog y capacidad a la derecha, sin Excel ninja de por medio.</div>
+        </div>
+        <span class="badge" id="mixBadge">Mix 100%</span>
+      </div>
+
+      <div class="toolbar">
+        <button class="primary" id="resetBtn">Restablecer base</button>
+        <button id="normalizeMixBtn">Normalizar mix</button>
+      </div>
+
+      <div class="grid-2" style="margin-bottom: 16px;">
+        <div>
+          <label class="note" for="configName">Nombre configuración</label>
+          <input id="configName" placeholder="Ej. Escenario agresivo" />
+        </div>
+        <div>
+          <label class="note" for="savedConfigs">Guardadas</label>
+          <select id="savedConfigs">
+            <option value="">Selecciona...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button id="saveConfigBtn">Guardar local</button>
+        <button id="loadConfigBtn">Cargar</button>
+        <button class="danger" id="deleteConfigBtn">Borrar</button>
+      </div>
+
+      <div class="toolbar">
+        <button id="downloadConfigBtn">Descargar JSON</button>
+        <label class="file-button" for="uploadConfigInput">Subir JSON</label>
+        <input id="uploadConfigInput" class="hidden" type="file" accept=".json,application/json" />
+      </div>
+
+      <div id="inputSections"></div>
+
+      <div class="footer-note">
+        Las configuraciones guardadas se almacenan en este navegador. El JSON descargado sirve para archivar escenarios, enviarlos o volver a subirlos más adelante.
+      </div>
+    </aside>
+
+    <main class="panel right">
+      <section class="alerts" id="alerts"></section>
+
+      <section class="kpis" id="kpis"></section>
+
+      <section class="grid-2">
+        <div class="chart-card">
+          <div class="chart-title">
+            <div>
+              <h2>EBITDA mensual</h2>
+              <div class="chart-meta">Reconocido tras variable, captación y OPEX fijo</div>
+            </div>
+            <span class="badge" id="ebitda24Badge">M24</span>
+          </div>
+          <svg class="chart-svg" id="ebitdaChart" viewBox="0 0 760 240" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">
+            <div>
+              <h2>Caja mensual</h2>
+              <div class="chart-meta">Flujo operativo acumulado con cobro corriente y cola del mes anterior</div>
+            </div>
+            <span class="badge" id="cash24Badge">M24</span>
+          </div>
+          <svg class="chart-svg" id="cashChart" viewBox="0 0 760 240" preserveAspectRatio="none"></svg>
+        </div>
+      </section>
+
+      <section class="grid-2">
+        <div class="chart-card">
+          <div class="chart-title">
+            <div>
+              <h2>Embudo y capacidad</h2>
+              <div class="chart-meta">Llamadas potenciales vs llamadas realmente atendidas</div>
+            </div>
+          </div>
+          <svg class="chart-svg" id="funnelChart" viewBox="0 0 760 240" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">
+            <div>
+              <h2>Backlog y entregas</h2>
+              <div class="chart-meta">La parte donde el modelo te dice si estás vendiendo más rápido de lo que entregas</div>
+            </div>
+          </div>
+          <svg class="chart-svg" id="backlogChart" viewBox="0 0 760 240" preserveAspectRatio="none"></svg>
+        </div>
+      </section>
+
+      <section class="chart-card">
+        <div class="chart-title">
+          <div>
+            <h2>Sensibilidad rápida</h2>
+            <div class="chart-meta">EBITDA del mes 1 según CPL y close rate de llamada</div>
+          </div>
+          <span class="badge">M1</span>
+        </div>
+        <div class="table-wrap">
+          <table id="sensitivityTable"></table>
+        </div>
+      </section>
+
+      <section class="chart-card">
+        <div class="chart-title">
+          <div>
+            <h2>Resumen mensual</h2>
+            <div class="chart-meta">Mes a mes: ventas, entregas, EBITDA, caja y cuello de botella</div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="monthlyTable"></table>
+        </div>
+      </section>
+
+      <section class="footer-note">
+        “FCF 24m” se muestra como flujo de caja operativo acumulado, porque este modelo no mete CAPEX, deuda ni impuestos societarios. Si luego quieres una versión más seria-seria, se le añade balance y financiación.
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const DEFAULT_CONFIG = {
+  "assumptions": {
+    "eligibleLeadRate": 0.7,
+    "contactRate": 0.92,
+    "callShowRate": 0.78,
+    "callCloseRate": 0.42,
+    "botRecoveryRate": 0.22,
+    "cancellationRate": 0.05,
+    "currentMonthCollection": 0.9,
+    "nextMonthCollection": 0.1,
+    "badDebtRate": 0.01,
+    "paymentProcessorFee": 0.015,
+    "closerFTE": 1,
+    "closerSalaryMonth": 0,
+    "commissionPerSale": 30,
+    "closerWorkdaysMonth": 21,
+    "closerProductiveHoursDay": 6,
+    "callDurationMin": 25,
+    "afterCallAdminMin": 7,
+    "followupOversightMin": 2,
+    "peritoFTE": 1,
+    "peritoSalaryMonth": 0,
+    "rentingMonthPerPerito": 450,
+    "phoneLaptopMonthPerPerito": 90,
+    "peritoWorkdaysMonth": 21,
+    "peritoProductiveHoursDay": 6.5,
+    "reworkRate": 0.08,
+    "reworkHoursPerCase": 0.8,
+    "costPerKm": 0.32,
+    "founderSalaryMonth": 0,
+    "agencyRetainerMonth": 1200,
+    "generalOverheadMonth": 350,
+    "softwareFixedMonth": 250,
+    "aiPlatformFixedMonth": 180,
+    "insuranceLegalAdminMonth": 200,
+    "annualFixedCostInflation": 0.03,
+    "modelMonths": 24,
+    "startingCash": 10000
+  },
+  "channels": {
+    "paidSocial": {
+      "month1": 6000,
+      "growth": 0.0,
+      "param": 16
+    },
+    "lawyerReferrals": {
+      "month1": 15,
+      "growth": 0.02,
+      "param": 0
+    },
+    "organicDirect": {
+      "month1": 20,
+      "growth": 0.01,
+      "param": 0
+    },
+    "otherPartnerships": {
+      "month1": 5,
+      "growth": 0.02,
+      "param": 0
+    }
+  },
+  "caseTypes": [
+    {
+      "name": "Simple",
+      "mix": 0.3,
+      "pvp": 290,
+      "descCall": 0.0,
+      "descBot": 0.08,
+      "onsiteH": 1.0,
+      "travelH": 0.8,
+      "postH": 0.7,
+      "km": 35,
+      "aiVar": 6,
+      "otherVar": 8
+    },
+    {
+      "name": "Standard",
+      "mix": 0.5,
+      "pvp": 390,
+      "descCall": 0.03,
+      "descBot": 0.1,
+      "onsiteH": 1.3,
+      "travelH": 1.0,
+      "postH": 1.0,
+      "km": 50,
+      "aiVar": 8,
+      "otherVar": 12
+    },
+    {
+      "name": "Complex",
+      "mix": 0.2,
+      "pvp": 590,
+      "descCall": 0.05,
+      "descBot": 0.12,
+      "onsiteH": 1.8,
+      "travelH": 1.4,
+      "postH": 1.4,
+      "km": 75,
+      "aiVar": 12,
+      "otherVar": 18
+    }
+  ]
+};
+    const STORAGE_KEY = "modeloAgenciaPericialConfigsV1";
+
+    const FIELD_SECTIONS = [
+      {
+        key: "ventas",
+        title: "Ventas y conversión",
+        summary: "Rates del embudo",
+        fields: [
+          field("assumptions.eligibleLeadRate", "Eligible lead rate", "%", 0, 1, 0.01, true, "percent"),
+          field("assumptions.contactRate", "Contact rate", "%", 0, 1, 0.01, true, "percent"),
+          field("assumptions.callShowRate", "Call show rate", "%", 0, 1, 0.01, true, "percent"),
+          field("assumptions.callCloseRate", "Call close rate", "%", 0, 1, 0.01, true, "percent"),
+          field("assumptions.botRecoveryRate", "Bot recovery rate", "%", 0, 1, 0.01, true, "percent"),
+          field("assumptions.cancellationRate", "Cancellation rate", "%", 0, 0.5, 0.005, true, "percent")
+        ]
+      },
+      {
+        key: "cobro",
+        title: "Cobro y fricción financiera",
+        summary: "Cobro mensual e impagos",
+        fields: [
+          field("assumptions.currentMonthCollection", "Cobro mes corriente", "%", 0, 1, 0.01, true, "percent"),
+          field("assumptions.nextMonthCollection", "Cobro mes siguiente", "%", 0, 1, 0.01, true, "percent"),
+          field("assumptions.badDebtRate", "Bad debt rate", "%", 0, 0.2, 0.005, true, "percent"),
+          field("assumptions.paymentProcessorFee", "Payment processor fee", "%", 0, 0.1, 0.001, true, "percent")
+        ]
+      },
+      {
+        key: "equipoVentas",
+        title: "Equipo comercial",
+        summary: "Capacidad del closer",
+        fields: [
+          field("assumptions.closerFTE", "Closer FTE", "FTE", 0, 5, 0.1, true, "number"),
+          field("assumptions.closerSalaryMonth", "Closer salary / month", "€", 0, 12000, 50, true, "currency"),
+          field("assumptions.commissionPerSale", "Commission per sale", "€", 0, 200, 1, true, "currency"),
+          field("assumptions.closerWorkdaysMonth", "Closer workdays / month", "días", 0, 31, 1, true, "number"),
+          field("assumptions.closerProductiveHoursDay", "Closer productive hours / day", "h", 0, 12, 0.1, true, "number"),
+          field("assumptions.callDurationMin", "Call duration", "min", 0, 120, 1, true, "number"),
+          field("assumptions.afterCallAdminMin", "After-call admin", "min", 0, 60, 1, true, "number"),
+          field("assumptions.followupOversightMin", "Follow-up oversight", "min", 0, 30, 0.5, true, "number")
+        ]
+      },
+      {
+        key: "operaciones",
+        title: "Operaciones y entrega",
+        summary: "Capacidad del perito",
+        fields: [
+          field("assumptions.peritoFTE", "Perito FTE", "FTE", 0, 10, 0.1, true, "number"),
+          field("assumptions.peritoSalaryMonth", "Perito salary / month", "€", 0, 12000, 50, true, "currency"),
+          field("assumptions.rentingMonthPerPerito", "Renting / month per perito", "€", 0, 3000, 10, true, "currency"),
+          field("assumptions.phoneLaptopMonthPerPerito", "Phone+Laptop / month per perito", "€", 0, 1000, 10, true, "currency"),
+          field("assumptions.peritoWorkdaysMonth", "Perito workdays / month", "días", 0, 31, 1, true, "number"),
+          field("assumptions.peritoProductiveHoursDay", "Perito productive hours / day", "h", 0, 12, 0.1, true, "number"),
+          field("assumptions.reworkRate", "Rework rate", "%", 0, 0.5, 0.005, true, "percent"),
+          field("assumptions.reworkHoursPerCase", "Rework hours per affected case", "h", 0, 8, 0.1, true, "number"),
+          field("assumptions.costPerKm", "Cost per km", "€", 0, 2, 0.01, true, "currency"),
+          field("assumptions.founderSalaryMonth", "Founder / GM salary / month", "€", 0, 15000, 50, true, "currency")
+        ]
+      },
+      {
+        key: "fijos",
+        title: "Fijos y horizonte",
+        summary: "OPEX estructural",
+        fields: [
+          field("assumptions.agencyRetainerMonth", "Agency retainer / month", "€", 0, 10000, 25, true, "currency"),
+          field("assumptions.generalOverheadMonth", "General overhead / month", "€", 0, 5000, 10, true, "currency"),
+          field("assumptions.softwareFixedMonth", "Software fixed / month", "€", 0, 5000, 10, true, "currency"),
+          field("assumptions.aiPlatformFixedMonth", "AI platform fixed / month", "€", 0, 5000, 10, true, "currency"),
+          field("assumptions.insuranceLegalAdminMonth", "Insurance/legal/admin / month", "€", 0, 5000, 10, true, "currency"),
+          field("assumptions.annualFixedCostInflation", "Annual fixed-cost inflation", "%", 0, 0.2, 0.005, true, "percent"),
+          field("assumptions.modelMonths", "Model months", "meses", 1, 60, 1, true, "number"),
+          field("assumptions.startingCash", "Starting cash", "€", 0, 500000, 100, false, "currency")
+        ]
+      },
+      {
+        key: "canales",
+        title: "Canales",
+        summary: "Captación y crecimiento",
+        custom: "channels"
+      },
+      {
+        key: "tipologias",
+        title: "Tipologías de caso",
+        summary: "Mix, pricing y esfuerzo",
+        custom: "caseTypes"
+      }
+    ];
+
+    const CHANNEL_META = [
+      {
+        key: "paidSocial",
+        title: "Paid Social",
+        note: "Mes 1 = inversión en ads · Parámetro = CPL",
+        fields: [
+          field("channels.paidSocial.month1", "Ad spend mes 1", "€", 0, 50000, 100, true, "currency"),
+          field("channels.paidSocial.growth", "Crecimiento mensual", "%", -0.5, 1, 0.01, true, "percent"),
+          field("channels.paidSocial.param", "CPL", "€", 1, 200, 0.5, true, "currency")
+        ]
+      },
+      {
+        key: "lawyerReferrals",
+        title: "Lawyer referrals",
+        note: "Mes 1 = leads · Parámetro = coste por lead / fee equivalente",
+        fields: [
+          field("channels.lawyerReferrals.month1", "Leads mes 1", "leads", 0, 1000, 1, true, "number"),
+          field("channels.lawyerReferrals.growth", "Crecimiento mensual", "%", -0.5, 1, 0.01, true, "percent"),
+          field("channels.lawyerReferrals.param", "Coste por lead", "€", 0, 200, 0.5, true, "currency")
+        ]
+      },
+      {
+        key: "organicDirect",
+        title: "Organic / direct",
+        note: "Mes 1 = leads",
+        fields: [
+          field("channels.organicDirect.month1", "Leads mes 1", "leads", 0, 2000, 1, true, "number"),
+          field("channels.organicDirect.growth", "Crecimiento mensual", "%", -0.5, 1, 0.01, true, "percent"),
+          field("channels.organicDirect.param", "Coste por lead", "€", 0, 200, 0.5, true, "currency")
+        ]
+      },
+      {
+        key: "otherPartnerships",
+        title: "Other partnerships",
+        note: "Mes 1 = leads",
+        fields: [
+          field("channels.otherPartnerships.month1", "Leads mes 1", "leads", 0, 1000, 1, true, "number"),
+          field("channels.otherPartnerships.growth", "Crecimiento mensual", "%", -0.5, 1, 0.01, true, "percent"),
+          field("channels.otherPartnerships.param", "Coste por lead", "€", 0, 200, 0.5, true, "currency")
+        ]
+      }
+    ];
+
+    const CASE_TYPE_META_FIELDS = [
+      field("mix", "Mix", "%", 0, 1, 0.01, true, "percent"),
+      field("pvp", "PVP", "€", 0, 5000, 10, true, "currency"),
+      field("descCall", "Desc. call", "%", 0, 0.8, 0.01, true, "percent"),
+      field("descBot", "Desc. bot", "%", 0, 0.8, 0.01, true, "percent"),
+      field("onsiteH", "On-site h", "h", 0, 12, 0.1, true, "number"),
+      field("travelH", "Travel h", "h", 0, 12, 0.1, true, "number"),
+      field("postH", "Post h", "h", 0, 12, 0.1, true, "number"),
+      field("km", "KM / caso", "km", 0, 500, 1, true, "number"),
+      field("aiVar", "IA var €/caso", "€", 0, 500, 1, true, "currency"),
+      field("otherVar", "Otros var €/caso", "€", 0, 500, 1, true, "currency")
+    ];
+
+    function field(path, label, unit, min, max, step, hasSlider = true, format = "number") {
+      return { path, label, unit, min, max, step, hasSlider, format };
+    }
+
+    function deepClone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function getByPath(obj, path) {
+      return path.split(".").reduce((acc, key) => acc[key], obj);
+    }
+
+    function setByPath(obj, path, value) {
+      const parts = path.split(".");
+      const last = parts.pop();
+      const target = parts.reduce((acc, key) => acc[key], obj);
+      target[last] = value;
+    }
+
+    function formatValue(value, format = "number", digits = null) {
+      if (!Number.isFinite(value)) return "—";
+      if (format === "currency") {
+        return new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: digits ?? 0 }).format(value);
+      }
+      if (format === "percent") {
+        return new Intl.NumberFormat("es-ES", { style: "percent", minimumFractionDigits: digits ?? 1, maximumFractionDigits: digits ?? 1 }).format(value);
+      }
+      if (format === "percent0") {
+        return new Intl.NumberFormat("es-ES", { style: "percent", maximumFractionDigits: 0 }).format(value);
+      }
+      return new Intl.NumberFormat("es-ES", { minimumFractionDigits: digits ?? 0, maximumFractionDigits: digits ?? 2 }).format(value);
+    }
+
+    function compactNumber(value) {
+      if (!Number.isFinite(value)) return "—";
+      return new Intl.NumberFormat("es-ES", {
+        notation: "compact",
+        maximumFractionDigits: 1
+      }).format(value);
+    }
+
+    function normalizeMix(config) {
+      const total = config.caseTypes.reduce((sum, item) => sum + Number(item.mix || 0), 0);
+      if (total <= 0) return;
+      config.caseTypes.forEach(item => {
+        item.mix = Number(item.mix || 0) / total;
+      });
+    }
+
+    function buildSections() {
+      const root = document.getElementById("inputSections");
+      root.innerHTML = "";
+      FIELD_SECTIONS.forEach((section, index) => {
+        const wrapper = document.createElement("details");
+        wrapper.className = "details";
+        wrapper.open = true;
+        const summary = document.createElement("summary");
+        summary.innerHTML = `<span>${section.title}</span><span class="summary-right">${section.summary}</span>`;
+        wrapper.appendChild(summary);
+
+        const body = document.createElement("div");
+        body.className = "section-body";
+
+        if (section.custom === "channels") {
+          CHANNEL_META.forEach(channel => {
+            const card = document.createElement("div");
+            card.className = "field";
+            card.innerHTML = `<div class="field-head"><div class="field-label">${channel.title}</div><div class="field-unit">${channel.note}</div></div>`;
+            const sub = document.createElement("div");
+            sub.className = "section-body";
+            sub.style.padding = "0";
+            sub.style.gap = "8px";
+            channel.fields.forEach(meta => sub.appendChild(renderField(meta)));
+            card.appendChild(sub);
+            body.appendChild(card);
+          });
+        } else if (section.custom === "caseTypes") {
+          state.config.caseTypes.forEach((caseType, idx) => {
+            const card = document.createElement("div");
+            card.className = "field";
+            card.innerHTML = `<div class="field-head"><div class="field-label">${caseType.name}</div><div class="field-unit">El mix se normaliza si no suma 100%</div></div>`;
+            const sub = document.createElement("div");
+            sub.className = "section-body";
+            sub.style.padding = "0";
+            sub.style.gap = "8px";
+            CASE_TYPE_META_FIELDS.forEach(meta => {
+              const cloned = { ...meta, path: `caseTypes.${idx}.${meta.path}` };
+              sub.appendChild(renderField(cloned));
+            });
+            card.appendChild(sub);
+            body.appendChild(card);
+          });
+        } else {
+          section.fields.forEach(meta => body.appendChild(renderField(meta)));
+        }
+
+        wrapper.appendChild(body);
+        root.appendChild(wrapper);
+      });
+    }
+
+    function renderField(meta) {
+      const value = Number(getByPath(state.config, meta.path));
+      const wrap = document.createElement("div");
+      wrap.className = "field" + (!meta.hasSlider ? " only-number" : "");
+      wrap.dataset.path = meta.path;
+      wrap.dataset.format = meta.format;
+      wrap.dataset.unit = meta.unit;
+      const displayValue = meta.format === "percent" ? formatValue(value, "percent") : meta.format === "currency" ? formatValue(value, "currency") : formatValue(value, "number");
+      wrap.innerHTML = `
+        <div class="field-head">
+          <div class="field-label">${meta.label}</div>
+          <div class="field-unit">${displayValue} · ${meta.unit}</div>
+        </div>
+        <div class="field-controls">
+          ${meta.hasSlider ? `<input type="range" min="${meta.min}" max="${meta.max}" step="${meta.step}" value="${value}" data-role="range" data-path="${meta.path}">` : ""}
+          <input type="number" min="${meta.min}" max="${meta.max}" step="${meta.step}" value="${value}" data-role="number" data-path="${meta.path}">
+        </div>
+      `;
+      return wrap;
+    }
+
+    function readNumber(value, fallback = 0) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function bindInputs() {
+      document.getElementById("inputSections").addEventListener("input", (event) => {
+        const el = event.target;
+        const path = el.dataset.path;
+        if (!path) return;
+        const value = readNumber(el.value);
+        setByPath(state.config, path, value);
+        syncTwinInputs(path, value, el.dataset.role);
+        updateFieldUi(path);
+        refresh();
+      });
+    }
+
+    function syncTwinInputs(path, value, sourceRole) {
+      document.querySelectorAll(`[data-path="${path}"]`).forEach(el => {
+        if (el.dataset.role !== sourceRole) el.value = value;
+      });
+    }
+
+    function getDisplayValue(value, format) {
+      if (format === "percent") return formatValue(value, "percent");
+      if (format === "currency") return formatValue(value, "currency");
+      return formatValue(value, "number");
+    }
+
+    function updateFieldUi(path = null) {
+      const fields = path
+        ? Array.from(document.querySelectorAll(`.field[data-path="${path}"]`))
+        : Array.from(document.querySelectorAll(`.field[data-path]`));
+
+      fields.forEach(field => {
+        const fieldPath = field.dataset.path;
+        const value = Number(getByPath(state.config, fieldPath));
+        field.querySelectorAll("[data-path]").forEach(input => {
+          if (document.activeElement !== input) input.value = value;
+        });
+        const unit = field.dataset.unit || "";
+        const format = field.dataset.format || "number";
+        const unitNode = field.querySelector(".field-unit");
+        if (unitNode) unitNode.textContent = `${getDisplayValue(value, format)} · ${unit}`;
+      });
+    }
+
+    function computeWeighted(caseTypes, assumptions) {
+      const totalMix = caseTypes.reduce((sum, item) => sum + (Number(item.mix) || 0), 0);
+      const normalized = totalMix > 0 ? caseTypes.map(item => ({ ...item, mix: item.mix / totalMix })) : caseTypes.map(item => ({ ...item, mix: 0 }));
+      const listedPrice = normalized.reduce((sum, item) => sum + item.mix * item.pvp, 0);
+      const netPriceCall = normalized.reduce((sum, item) => sum + item.mix * item.pvp * (1 - item.descCall), 0);
+      const netPriceBot = normalized.reduce((sum, item) => sum + item.mix * item.pvp * (1 - item.descBot), 0);
+      const hoursBase = normalized.reduce((sum, item) => sum + item.mix * (item.onsiteH + item.travelH + item.postH), 0);
+      const km = normalized.reduce((sum, item) => sum + item.mix * item.km, 0);
+      const aiVar = normalized.reduce((sum, item) => sum + item.mix * item.aiVar, 0);
+      const otherVar = normalized.reduce((sum, item) => sum + item.mix * item.otherVar, 0);
+      const hoursRework = hoursBase + assumptions.reworkRate * assumptions.reworkHoursPerCase;
+      const travelCost = km * assumptions.costPerKm;
+      const averageContribution = (((netPriceCall * assumptions.callCloseRate) + (netPriceBot * (1 - assumptions.callCloseRate) * assumptions.botRecoveryRate)) /
+        Math.max(assumptions.callCloseRate + (1 - assumptions.callCloseRate) * assumptions.botRecoveryRate, 1e-9)) - travelCost - aiVar - otherVar - assumptions.commissionPerSale;
+
+      return {
+        normalizedCaseTypes: normalized,
+        totalMix,
+        listedPrice,
+        netPriceCall,
+        netPriceBot,
+        hoursBase,
+        hoursRework,
+        km,
+        aiVar,
+        otherVar,
+        travelCost,
+        averageContribution
+      };
+    }
+
+    function monthValue(start, growth, monthIndex) {
+      return start * Math.pow(1 + growth, monthIndex);
+    }
+
+    function computeModel(config) {
+      const assumptions = config.assumptions;
+      const channels = config.channels;
+      const months = Math.max(1, Math.round(assumptions.modelMonths));
+      const weighted = computeWeighted(config.caseTypes, assumptions);
+
+      const closerAvailableHours = assumptions.closerFTE * assumptions.closerWorkdaysMonth * assumptions.closerProductiveHoursDay;
+      const avgMinutesPerHandledCall = assumptions.callDurationMin + assumptions.afterCallAdminMin + assumptions.followupOversightMin * (1 - assumptions.callCloseRate);
+      const callCapacity = avgMinutesPerHandledCall === 0 ? 0 : (closerAvailableHours * 60) / avgMinutesPerHandledCall;
+
+      const peritoAvailableHours = assumptions.peritoFTE * assumptions.peritoWorkdaysMonth * assumptions.peritoProductiveHoursDay;
+      const peritoCapacity = weighted.hoursRework === 0 ? 0 : peritoAvailableHours / weighted.hoursRework;
+
+      let openingBacklog = 0;
+      let openingCash = assumptions.startingCash;
+      let prevNetBookedRevenue = 0;
+      const funnel = [];
+      const pnl = [];
+      const cash = [];
+
+      for (let i = 0; i < months; i += 1) {
+        const paidSocialSpend = monthValue(channels.paidSocial.month1, channels.paidSocial.growth, i);
+        const paidSocialLeads = channels.paidSocial.param === 0 ? 0 : paidSocialSpend / channels.paidSocial.param;
+        const lawyerLeads = monthValue(channels.lawyerReferrals.month1, channels.lawyerReferrals.growth, i);
+        const organicLeads = monthValue(channels.organicDirect.month1, channels.organicDirect.growth, i);
+        const otherLeads = monthValue(channels.otherPartnerships.month1, channels.otherPartnerships.growth, i);
+
+        const totalLeads = paidSocialLeads + lawyerLeads + organicLeads + otherLeads;
+        const eligibleLeads = totalLeads * assumptions.eligibleLeadRate;
+        const contactedLeads = eligibleLeads * assumptions.contactRate;
+        const potentialCallsHeld = contactedLeads * assumptions.callShowRate;
+        const actualCallsHeld = Math.min(potentialCallsHeld, callCapacity);
+        const lostDueToSalesCapacity = Math.max(0, potentialCallsHeld - actualCallsHeld);
+        const closedInCall = actualCallsHeld * assumptions.callCloseRate;
+        const notClosedAfterCall = actualCallsHeld - closedInCall;
+        const closedByBot = notClosedAfterCall * assumptions.botRecoveryRate;
+        const grossSoldCases = closedInCall + closedByBot;
+        const cancelledCases = grossSoldCases * assumptions.cancellationRate;
+        const netSoldCases = grossSoldCases - cancelledCases;
+
+        const weightedNetPriceCall = weighted.netPriceCall;
+        const weightedNetPriceBot = weighted.netPriceBot;
+        const grossSoldRevenue = closedInCall * weightedNetPriceCall + closedByBot * weightedNetPriceBot;
+        const cancelledRevenue = grossSoldRevenue * assumptions.cancellationRate;
+        const netBookedRevenue = grossSoldRevenue - cancelledRevenue;
+
+        const lawyerLeadAcquisitionCost = lawyerLeads * channels.lawyerReferrals.param;
+        const organicLeadAcquisitionCost = organicLeads * channels.organicDirect.param;
+        const otherLeadAcquisitionCost = otherLeads * channels.otherPartnerships.param;
+
+        funnel.push({
+          month: i + 1,
+          paidSocialSpend,
+          paidSocialLeads,
+          lawyerLeads,
+          organicLeads,
+          otherLeads,
+          totalLeads,
+          eligibleLeads,
+          contactedLeads,
+          potentialCallsHeld,
+          actualCallsHeld,
+          lostDueToSalesCapacity,
+          closedInCall,
+          notClosedAfterCall,
+          closedByBot,
+          grossSoldCases,
+          cancelledCases,
+          netSoldCases,
+          weightedNetPriceCall,
+          weightedNetPriceBot,
+          grossSoldRevenue,
+          cancelledRevenue,
+          netBookedRevenue,
+          lawyerLeadAcquisitionCost,
+          organicLeadAcquisitionCost,
+          otherLeadAcquisitionCost
+        });
+
+        const casesAvailableToDeliver = openingBacklog + netSoldCases;
+        const deliveredCases = Math.min(casesAvailableToDeliver, peritoCapacity);
+        const closingBacklogCases = Math.max(0, casesAvailableToDeliver - deliveredCases);
+
+        const recognizedRevenue = netSoldCases === 0 ? 0 : deliveredCases * (netBookedRevenue / netSoldCases);
+        const travelCost = deliveredCases * weighted.km * assumptions.costPerKm;
+        const aiVariableCost = deliveredCases * weighted.aiVar;
+        const otherVariableDeliveryCost = deliveredCases * weighted.otherVar;
+        const paymentProcessing = netBookedRevenue * assumptions.paymentProcessorFee;
+        const closerCommissions = grossSoldCases * assumptions.commissionPerSale;
+        const totalDirectVariableCost = travelCost + aiVariableCost + otherVariableDeliveryCost + paymentProcessing + closerCommissions;
+        const grossProfit = recognizedRevenue - totalDirectVariableCost;
+
+        const totalAcquisitionSpend = paidSocialSpend + lawyerLeadAcquisitionCost + organicLeadAcquisitionCost + otherLeadAcquisitionCost;
+        const inflationFactor = Math.pow(1 + assumptions.annualFixedCostInflation, Math.floor(i / 12));
+        const closerSalary = assumptions.closerFTE * assumptions.closerSalaryMonth * inflationFactor;
+        const peritoSalary = assumptions.peritoFTE * assumptions.peritoSalaryMonth * inflationFactor;
+        const peritoRenting = assumptions.peritoFTE * assumptions.rentingMonthPerPerito * inflationFactor;
+        const peritoPhoneLaptop = assumptions.peritoFTE * assumptions.phoneLaptopMonthPerPerito * inflationFactor;
+        const founderSalary = assumptions.founderSalaryMonth * inflationFactor;
+        const agencyRetainer = assumptions.agencyRetainerMonth * inflationFactor;
+        const generalOverhead = assumptions.generalOverheadMonth * inflationFactor;
+        const softwareFixed = assumptions.softwareFixedMonth * inflationFactor;
+        const aiPlatformFixed = assumptions.aiPlatformFixedMonth * inflationFactor;
+        const insuranceLegalAdmin = assumptions.insuranceLegalAdminMonth * inflationFactor;
+        const totalFixedOpex = closerSalary + peritoSalary + peritoRenting + peritoPhoneLaptop + founderSalary + agencyRetainer + generalOverhead + softwareFixed + aiPlatformFixed + insuranceLegalAdmin;
+
+        const ebitda = grossProfit - totalAcquisitionSpend - totalFixedOpex;
+        const ebitdaMargin = recognizedRevenue === 0 ? 0 : ebitda / recognizedRevenue;
+
+        pnl.push({
+          month: i + 1,
+          openingBacklogCases: openingBacklog,
+          netSoldCases,
+          casesAvailableToDeliver,
+          peritoCapacity,
+          deliveredCases,
+          closingBacklogCases,
+          recognizedRevenue,
+          travelCost,
+          aiVariableCost,
+          otherVariableDeliveryCost,
+          paymentProcessing,
+          closerCommissions,
+          totalDirectVariableCost,
+          grossProfit,
+          paidSocialSpend,
+          lawyerLeadAcquisitionCost,
+          organicLeadAcquisitionCost,
+          otherLeadAcquisitionCost,
+          totalAcquisitionSpend,
+          closerSalary,
+          peritoSalary,
+          peritoRenting,
+          peritoPhoneLaptop,
+          founderSalary,
+          agencyRetainer,
+          generalOverhead,
+          softwareFixed,
+          aiPlatformFixed,
+          insuranceLegalAdmin,
+          totalFixedOpex,
+          ebitda,
+          ebitdaMargin
+        });
+
+        const cashCollectedCurrentMonth = netBookedRevenue * assumptions.currentMonthCollection;
+        const cashCollectedPriorMonthTail = i === 0 ? 0 : prevNetBookedRevenue * assumptions.nextMonthCollection;
+        const totalCashReceiptsAfterBadDebt = (cashCollectedCurrentMonth + cashCollectedPriorMonthTail) * (1 - assumptions.badDebtRate);
+        const directVariableCashOut = totalDirectVariableCost;
+        const acquisitionCashOut = totalAcquisitionSpend;
+        const fixedOpexCashOut = totalFixedOpex;
+        const totalOperatingCashOut = directVariableCashOut + acquisitionCashOut + fixedOpexCashOut;
+        const netOperatingCashFlow = totalCashReceiptsAfterBadDebt - totalOperatingCashOut;
+        const closingCash = openingCash + netOperatingCashFlow;
+
+        cash.push({
+          month: i + 1,
+          openingCash,
+          cashCollectedCurrentMonth,
+          cashCollectedPriorMonthTail,
+          totalCashReceiptsAfterBadDebt,
+          directVariableCashOut,
+          acquisitionCashOut,
+          fixedOpexCashOut,
+          totalOperatingCashOut,
+          netOperatingCashFlow,
+          closingCash
+        });
+
+        openingBacklog = closingBacklogCases;
+        openingCash = closingCash;
+        prevNetBookedRevenue = netBookedRevenue;
+      }
+
+      const summary = {
+        totalRecognizedRevenue: pnl.reduce((sum, row) => sum + row.recognizedRevenue, 0),
+        totalEbitda: pnl.reduce((sum, row) => sum + row.ebitda, 0),
+        ebitdaMonth24: pnl[pnl.length - 1]?.ebitda ?? 0,
+        finalCash: cash[cash.length - 1]?.closingCash ?? 0,
+        totalNetOperatingCashFlow: cash.reduce((sum, row) => sum + row.netOperatingCashFlow, 0),
+        endingBacklogCases: pnl[pnl.length - 1]?.closingBacklogCases ?? 0,
+        deliveredCasesTotal: pnl.reduce((sum, row) => sum + row.deliveredCases, 0),
+        avgEbitdaMargin: pnl.reduce((sum, row) => sum + row.recognizedRevenue, 0) === 0 ? 0 : pnl.reduce((sum, row) => sum + row.ebitda, 0) / pnl.reduce((sum, row) => sum + row.recognizedRevenue, 0),
+        minCashBalance: cash.length ? Math.min(...cash.map(row => row.closingCash)) : 0,
+        monthsCashNegative: cash.filter(row => row.closingCash < 0).length,
+        callCapacity,
+        peritoCapacity,
+        closerAvailableHours,
+        peritoAvailableHours,
+        avgMinutesPerHandledCall,
+        totalMixInput: config.caseTypes.reduce((sum, item) => sum + Number(item.mix || 0), 0),
+        totalMixNormalized: weighted.normalizedCaseTypes.reduce((sum, item) => sum + item.mix, 0),
+        weighted
+      };
+
+      return { weighted, funnel, pnl, cash, summary };
+    }
+
+    function computeSensitivity(config) {
+      const closeRates = [0.25, 0.35, 0.45, 0.55, 0.65];
+      const cpls = [10, 12, 14, 16, 18, 20, 24, 28];
+      const rows = closeRates.map(closeRate => {
+        return {
+          closeRate,
+          values: cpls.map(cpl => {
+            const scenario = deepClone(config);
+            scenario.assumptions.callCloseRate = closeRate;
+            scenario.channels.paidSocial.param = cpl;
+            const result = computeModel(scenario);
+            return result.pnl[0]?.ebitda ?? 0;
+          })
+        };
+      });
+      return { cpls, rows };
+    }
+
+    function buildAlerts(model) {
+      const alerts = [];
+      const collectionTotal = state.config.assumptions.currentMonthCollection + state.config.assumptions.nextMonthCollection;
+      const totalMix = model.summary.totalMixInput;
+      if (Math.abs(totalMix - 1) > 0.0001) {
+        alerts.push({
+          type: "warn",
+          text: `El mix de tipologías suma ${formatValue(totalMix, "percent", 1)}. El cálculo lo normaliza internamente a 100% para no romper el modelo.`
+        });
+      } else {
+        alerts.push({
+          type: "ok",
+          text: "El mix de tipologías suma 100%. Aquí no hay fantasmas contables."
+        });
+      }
+
+      if (collectionTotal > 1.0001) {
+        alerts.push({
+          type: "danger",
+          text: `Current-month collection + Next-month collection suma ${formatValue(collectionTotal, "percent", 1)}. Estás cobrando más del 100% de la venta y eso ya sería magia.`
+        });
+      } else if (collectionTotal < 0.9999) {
+        alerts.push({
+          type: "warn",
+          text: `Las tasas de cobro suman ${formatValue(collectionTotal, "percent", 1)}. El trozo que falta no se cobra en este modelo.`
+        });
+      } else {
+        alerts.push({
+          type: "ok",
+          text: "Las tasas de cobro suman 100%. La caja te entiende."
+        });
+      }
+
+      const avgCallUtil = average(model.funnel.map(row => ratio(row.actualCallsHeld, row.potentialCallsHeld)));
+      const avgPeritoUtil = average(model.pnl.map(row => ratio(row.deliveredCases, row.peritoCapacity)));
+      if (avgPeritoUtil > 0.95 && model.summary.endingBacklogCases > 0) {
+        alerts.push({
+          type: "warn",
+          text: `Operaciones va al límite: utilización media del perito ${formatValue(avgPeritoUtil, "percent", 1)} y backlog final de ${formatValue(model.summary.endingBacklogCases, "number", 1)} casos.`
+        });
+      } else if (avgCallUtil > 0.95) {
+        alerts.push({
+          type: "warn",
+          text: `Ventas está rozando techo: utilización media del closer ${formatValue(avgCallUtil, "percent", 1)}.`
+        });
+      } else {
+        alerts.push({
+          type: "ok",
+          text: `Utilización media closer ${formatValue(avgCallUtil, "percent", 1)} · perito ${formatValue(avgPeritoUtil, "percent", 1)}.`
+        });
+      }
+
+      if (model.summary.monthsCashNegative > 0) {
+        alerts.push({
+          type: "danger",
+          text: `La caja entra en negativo ${model.summary.monthsCashNegative} mes(es). Salvo que te financie un unicornio, aquí hay que tocar palancas.`
+        });
+      }
+      return alerts;
+    }
+
+    function average(values) {
+      if (!values.length) return 0;
+      return values.reduce((sum, value) => sum + value, 0) / values.length;
+    }
+
+    function ratio(a, b) {
+      return b === 0 ? 0 : a / b;
+    }
+
+    function renderAlerts(alerts) {
+      const root = document.getElementById("alerts");
+      root.innerHTML = alerts.map(alert => `<div class="alert ${alert.type}">${alert.text}</div>`).join("");
+    }
+
+    function renderKpis(model) {
+      const kpis = [
+        {
+          label: "EBITDA 24m",
+          value: formatValue(model.summary.totalEbitda, "currency"),
+          sub: `Margen medio ${formatValue(model.summary.avgEbitdaMargin, "percent", 1)}`
+        },
+        {
+          label: "FCF operativo 24m",
+          value: formatValue(model.summary.totalNetOperatingCashFlow, "currency"),
+          sub: "Sin CAPEX ni financiación"
+        },
+        {
+          label: "Caja final",
+          value: formatValue(model.summary.finalCash, "currency"),
+          sub: `Mínima: ${formatValue(model.summary.minCashBalance, "currency")}`
+        },
+        {
+          label: "Facturación reconocida",
+          value: formatValue(model.summary.totalRecognizedRevenue, "currency"),
+          sub: `${formatValue(model.summary.deliveredCasesTotal, "number", 0)} casos entregados`
+        },
+        {
+          label: "EBITDA mes final",
+          value: formatValue(model.summary.ebitdaMonth24, "currency"),
+          sub: `Horizonte: ${state.config.assumptions.modelMonths} meses`
+        },
+        {
+          label: "Backlog final",
+          value: formatValue(model.summary.endingBacklogCases, "number", 1),
+          sub: "Casos pendientes de entregar"
+        },
+        {
+          label: "Capacidad llamadas/mes",
+          value: formatValue(model.summary.callCapacity, "number", 1),
+          sub: `${formatValue(model.summary.closerAvailableHours, "number", 1)} h disponibles`
+        },
+        {
+          label: "Capacidad perito/mes",
+          value: formatValue(model.summary.peritoCapacity, "number", 1),
+          sub: `${formatValue(model.summary.peritoAvailableHours, "number", 1)} h disponibles`
+        }
+      ];
+      const root = document.getElementById("kpis");
+      root.innerHTML = kpis.map(kpi => `
+        <div class="card">
+          <div class="kpi-label">${kpi.label}</div>
+          <div class="kpi-value">${kpi.value}</div>
+          <div class="kpi-sub">${kpi.sub}</div>
+        </div>
+      `).join("");
+
+      document.getElementById("mixBadge").textContent = `Mix input ${formatValue(model.summary.totalMixInput, "percent", 1)}`;
+      document.getElementById("ebitda24Badge").textContent = `M${state.config.assumptions.modelMonths} · ${compactNumber(model.summary.ebitdaMonth24)}`;
+      document.getElementById("cash24Badge").textContent = `M${state.config.assumptions.modelMonths} · ${compactNumber(model.summary.finalCash)}`;
+    }
+
+    function buildChartSeries(model) {
+      return {
+        ebitda: model.pnl.map(row => row.ebitda),
+        cash: model.cash.map(row => row.closingCash),
+        potentialCalls: model.funnel.map(row => row.potentialCallsHeld),
+        actualCalls: model.funnel.map(row => row.actualCallsHeld),
+        backlog: model.pnl.map(row => row.closingBacklogCases),
+        delivered: model.pnl.map(row => row.deliveredCases)
+      };
+    }
+
+    function renderLineChart(svgId, seriesList, options = {}) {
+      const svg = document.getElementById(svgId);
+      const width = 760;
+      const height = 240;
+      const padding = { top: 18, right: 18, bottom: 24, left: 28 };
+      const flat = seriesList.flatMap(series => series.values);
+      const min = Math.min(...flat, 0);
+      const max = Math.max(...flat, 1);
+      const range = max - min || 1;
+      const usableW = width - padding.left - padding.right;
+      const usableH = height - padding.top - padding.bottom;
+
+      const x = (index, total) => padding.left + (total <= 1 ? usableW / 2 : (index / (total - 1)) * usableW);
+      const y = (value) => padding.top + ((max - value) / range) * usableH;
+      const total = Math.max(...seriesList.map(s => s.values.length), 1);
+
+      const gridValues = Array.from({ length: 4 }, (_, i) => min + (range * i) / 3);
+      const grid = gridValues.map(value => {
+        const yy = y(value);
+        return `<g>
+          <line x1="${padding.left}" y1="${yy}" x2="${width - padding.right}" y2="${yy}" stroke="rgba(255,255,255,0.08)" stroke-dasharray="4 4" />
+          <text x="8" y="${yy + 4}" fill="rgba(233,237,247,0.55)" font-size="10">${formatAxisValue(value, options.format || "number")}</text>
+        </g>`;
+      }).join("");
+
+      const axis = `<line x1="${padding.left}" y1="${height - padding.bottom}" x2="${width - padding.right}" y2="${height - padding.bottom}" stroke="rgba(255,255,255,0.12)" />`;
+
+      const paths = seriesList.map((series, idx) => {
+        const points = series.values.map((value, index) => `${x(index, total)},${y(value)}`).join(" ");
+        const stroke = series.color || ["#74b9ff", "#6ee7b7", "#ffce54", "#ff7a7a"][idx % 4];
+        const area = options.area && idx === 0
+          ? `<polygon points="${padding.left},${height - padding.bottom} ${points} ${x(series.values.length - 1, total)},${height - padding.bottom}" fill="${stroke}" opacity="0.14"></polygon>`
+          : "";
+        return `${area}<polyline fill="none" stroke="${stroke}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="${points}"></polyline>`;
+      }).join("");
+
+      const labels = Array.from({ length: total }, (_, index) => {
+        if (index !== 0 && index !== total - 1 && index % Math.ceil(total / 6) !== 0) return "";
+        return `<text x="${x(index, total)}" y="${height - 6}" fill="rgba(233,237,247,0.55)" font-size="10" text-anchor="middle">M${index + 1}</text>`;
+      }).join("");
+
+      svg.innerHTML = `${grid}${axis}${paths}${labels}`;
+    }
+
+    function formatAxisValue(value, format) {
+      if (format === "currency") return compactNumber(value) + "€";
+      if (format === "number") return compactNumber(value);
+      return formatValue(value, format);
+    }
+
+    function renderSensitivityTable(sensitivity) {
+      const table = document.getElementById("sensitivityTable");
+      const allValues = sensitivity.rows.flatMap(row => row.values);
+      const min = Math.min(...allValues);
+      const max = Math.max(...allValues);
+      const range = max - min || 1;
+
+      function cellColor(value) {
+        const ratio = (value - min) / range;
+        const green = Math.round(80 + ratio * 120);
+        const red = Math.round(180 - ratio * 90);
+        const blue = Math.round(120 - ratio * 40);
+        return `rgba(${red}, ${green}, ${blue}, 0.35)`;
+      }
+
+      let html = "<thead><tr><th>Close rate</th>" + sensitivity.cpls.map(cpl => `<th>CPL €${cpl}</th>`).join("") + "</tr></thead><tbody>";
+      sensitivity.rows.forEach(row => {
+        html += `<tr><td><strong>${formatValue(row.closeRate, "percent", 0)}</strong></td>`;
+        row.values.forEach(value => {
+          html += `<td class="sens-cell" style="background:${cellColor(value)}">${formatValue(value, "currency")}</td>`;
+        });
+        html += "</tr>";
+      });
+      html += "</tbody>";
+      table.innerHTML = html;
+    }
+
+    function renderMonthlyTable(model) {
+      const table = document.getElementById("monthlyTable");
+      let html = `
+        <thead>
+          <tr>
+            <th>Mes</th>
+            <th>Leads</th>
+            <th>Net sold cases</th>
+            <th>Delivered</th>
+            <th>Revenue</th>
+            <th>EBITDA</th>
+            <th>Cash</th>
+            <th>Backlog</th>
+            <th>Util. ventas</th>
+            <th>Util. perito</th>
+          </tr>
+        </thead>
+        <tbody>
+      `;
+      model.pnl.forEach((row, index) => {
+        const funnel = model.funnel[index];
+        const cash = model.cash[index];
+        html += `
+          <tr>
+            <td><strong>M${row.month}</strong></td>
+            <td>${formatValue(funnel.totalLeads, "number", 1)}</td>
+            <td>${formatValue(row.netSoldCases, "number", 1)}</td>
+            <td>${formatValue(row.deliveredCases, "number", 1)}</td>
+            <td>${formatValue(row.recognizedRevenue, "currency")}</td>
+            <td>${formatValue(row.ebitda, "currency")}</td>
+            <td>${formatValue(cash.closingCash, "currency")}</td>
+            <td>${formatValue(row.closingBacklogCases, "number", 1)}</td>
+            <td>${formatValue(ratio(funnel.actualCallsHeld, Math.max(model.summary.callCapacity, 1e-9)), "percent", 1)}</td>
+            <td>${formatValue(ratio(row.deliveredCases, Math.max(row.peritoCapacity, 1e-9)), "percent", 1)}</td>
+          </tr>
+        `;
+      });
+      html += "</tbody>";
+      table.innerHTML = html;
+    }
+
+    function renderCharts(model) {
+      const series = buildChartSeries(model);
+      renderLineChart("ebitdaChart", [
+        { name: "EBITDA", values: series.ebitda, color: "#74b9ff" }
+      ], { format: "currency", area: true });
+
+      renderLineChart("cashChart", [
+        { name: "Cash", values: series.cash, color: "#6ee7b7" }
+      ], { format: "currency", area: true });
+
+      renderLineChart("funnelChart", [
+        { name: "Potential calls", values: series.potentialCalls, color: "#ffd36a" },
+        { name: "Actual calls", values: series.actualCalls, color: "#74b9ff" }
+      ], { format: "number" });
+
+      renderLineChart("backlogChart", [
+        { name: "Backlog", values: series.backlog, color: "#ff7a7a" },
+        { name: "Delivered", values: series.delivered, color: "#6ee7b7" }
+      ], { format: "number" });
+    }
+
+    function refresh() {
+      const model = computeModel(state.config);
+      state.model = model;
+      renderAlerts(buildAlerts(model));
+      renderKpis(model);
+      renderCharts(model);
+      renderSensitivityTable(computeSensitivity(state.config));
+      renderMonthlyTable(model);
+      updateFieldUi();
+      setSavedConfigOptions();
+    }
+
+    function loadStoredConfigs() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveStoredConfigs(configs) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(configs));
+    }
+
+    function setSavedConfigOptions() {
+      const select = document.getElementById("savedConfigs");
+      const configs = loadStoredConfigs();
+      const current = select.value;
+      select.innerHTML = '<option value="">Selecciona...</option>' + configs.map(cfg => `<option value="${cfg.name}">${cfg.name}</option>`).join("");
+      if (configs.some(cfg => cfg.name === current)) select.value = current;
+    }
+
+    function downloadJson(filename, data) {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function bindToolbar() {
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        state.config = deepClone(DEFAULT_CONFIG);
+        document.getElementById("configName").value = "";
+        refresh();
+      });
+
+      document.getElementById("normalizeMixBtn").addEventListener("click", () => {
+        normalizeMix(state.config);
+        refresh();
+      });
+
+      document.getElementById("saveConfigBtn").addEventListener("click", () => {
+        const name = document.getElementById("configName").value.trim() || `Escenario ${new Date().toLocaleString("es-ES")}`;
+        const configs = loadStoredConfigs().filter(cfg => cfg.name !== name);
+        configs.push({ name, config: state.config });
+        saveStoredConfigs(configs);
+        document.getElementById("savedConfigs").value = name;
+        setSavedConfigOptions();
+      });
+
+      document.getElementById("loadConfigBtn").addEventListener("click", () => {
+        const selected = document.getElementById("savedConfigs").value;
+        if (!selected) return;
+        const found = loadStoredConfigs().find(cfg => cfg.name === selected);
+        if (!found) return;
+        state.config = deepClone(found.config);
+        document.getElementById("configName").value = found.name;
+        refresh();
+      });
+
+      document.getElementById("deleteConfigBtn").addEventListener("click", () => {
+        const selected = document.getElementById("savedConfigs").value;
+        if (!selected) return;
+        const configs = loadStoredConfigs().filter(cfg => cfg.name !== selected);
+        saveStoredConfigs(configs);
+        document.getElementById("savedConfigs").value = "";
+        setSavedConfigOptions();
+      });
+
+      document.getElementById("downloadConfigBtn").addEventListener("click", () => {
+        const name = document.getElementById("configName").value.trim() || "configuracion_agencia_pericial";
+        downloadJson(`${name.replace(/\s+/g, "_").toLowerCase()}.json`, {
+          name,
+          exportedAt: new Date().toISOString(),
+          config: state.config
+        });
+      });
+
+      document.getElementById("uploadConfigInput").addEventListener("change", async (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        const text = await file.text();
+        try {
+          const parsed = JSON.parse(text);
+          state.config = deepClone(parsed.config || parsed);
+          document.getElementById("configName").value = parsed.name || file.name.replace(/\.json$/i, "");
+          refresh();
+        } catch (error) {
+          alert("Ese JSON no tiene buena pinta. Revisa el archivo.");
+        } finally {
+          event.target.value = "";
+        }
+      });
+    }
+
+    const state = {
+      config: deepClone(DEFAULT_CONFIG),
+      model: null
+    };
+
+    buildSections();
+    bindInputs();
+    bindToolbar();
+    refresh();
+  </script>
+</body>
+</html>

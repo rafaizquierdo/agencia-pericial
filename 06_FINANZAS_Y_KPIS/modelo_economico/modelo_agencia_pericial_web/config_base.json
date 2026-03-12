@@ -1,0 +1,106 @@
+{
+  "name": "Base Excel",
+  "config": {
+    "assumptions": {
+      "eligibleLeadRate": 0.7,
+      "contactRate": 0.92,
+      "callShowRate": 0.78,
+      "callCloseRate": 0.42,
+      "botRecoveryRate": 0.22,
+      "cancellationRate": 0.05,
+      "currentMonthCollection": 0.9,
+      "nextMonthCollection": 0.1,
+      "badDebtRate": 0.01,
+      "paymentProcessorFee": 0.015,
+      "closerFTE": 1,
+      "closerSalaryMonth": 0,
+      "commissionPerSale": 30,
+      "closerWorkdaysMonth": 21,
+      "closerProductiveHoursDay": 6,
+      "callDurationMin": 25,
+      "afterCallAdminMin": 7,
+      "followupOversightMin": 2,
+      "peritoFTE": 1,
+      "peritoSalaryMonth": 0,
+      "rentingMonthPerPerito": 450,
+      "phoneLaptopMonthPerPerito": 90,
+      "peritoWorkdaysMonth": 21,
+      "peritoProductiveHoursDay": 6.5,
+      "reworkRate": 0.08,
+      "reworkHoursPerCase": 0.8,
+      "costPerKm": 0.32,
+      "founderSalaryMonth": 0,
+      "agencyRetainerMonth": 1200,
+      "generalOverheadMonth": 350,
+      "softwareFixedMonth": 250,
+      "aiPlatformFixedMonth": 180,
+      "insuranceLegalAdminMonth": 200,
+      "annualFixedCostInflation": 0.03,
+      "modelMonths": 24,
+      "startingCash": 10000
+    },
+    "channels": {
+      "paidSocial": {
+        "month1": 6000,
+        "growth": 0.0,
+        "param": 16
+      },
+      "lawyerReferrals": {
+        "month1": 15,
+        "growth": 0.02,
+        "param": 0
+      },
+      "organicDirect": {
+        "month1": 20,
+        "growth": 0.01,
+        "param": 0
+      },
+      "otherPartnerships": {
+        "month1": 5,
+        "growth": 0.02,
+        "param": 0
+      }
+    },
+    "caseTypes": [
+      {
+        "name": "Simple",
+        "mix": 0.3,
+        "pvp": 290,
+        "descCall": 0.0,
+        "descBot": 0.08,
+        "onsiteH": 1.0,
+        "travelH": 0.8,
+        "postH": 0.7,
+        "km": 35,
+        "aiVar": 6,
+        "otherVar": 8
+      },
+      {
+        "name": "Standard",
+        "mix": 0.5,
+        "pvp": 390,
+        "descCall": 0.03,
+        "descBot": 0.1,
+        "onsiteH": 1.3,
+        "travelH": 1.0,
+        "postH": 1.0,
+        "km": 50,
+        "aiVar": 8,
+        "otherVar": 12
+      },
+      {
+        "name": "Complex",
+        "mix": 0.2,
+        "pvp": 590,
+        "descCall": 0.05,
+        "descBot": 0.12,
+        "onsiteH": 1.8,
+        "travelH": 1.4,
+        "postH": 1.4,
+        "km": 75,
+        "aiVar": 12,
+        "otherVar": 18
+      }
+    ]
+  }
+}
