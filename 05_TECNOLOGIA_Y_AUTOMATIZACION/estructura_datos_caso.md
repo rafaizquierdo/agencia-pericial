@@ -1,96 +1,124 @@
-# Estructura de datos del caso (source of truth)
+# Estructura de datos del caso
 
-Objetivo: que humanos y agentes recojan SIEMPRE lo mismo, en el mismo orden, para:
-- reducir llamadas eternas,
-- subir el close rate,
-- y alimentar la IA de redacción.
+## Principio general
 
----
+La unidad principal del CRM es el **caso**.
 
-## 1) Campos mínimos (obligatorios)
-### Identificación
-- case_id
-- fecha_creacion
-- fuente (ads / orgánico / abogado / etc.)
-- estado_pipeline (ver sección 2)
+Cada caso representa un expediente operativo desde el primer contacto hasta el cierre, incluyendo:
 
-### Cliente
-- nombre
-- teléfono
-- email
-- provincia/ciudad
+- lead inicial
+- cualificación
+- comunicaciones
+- seguimiento
+- documentación
+- presupuesto o factura
+- informe enviado
+- cierre
 
-### Vehículo (lo que mueve la decisión de compra)
-- marca_modelo
-- matrícula (si la da)
-- km_compra / km_actual
-- **precio_compra_vehiculo (€)** ✅ (preguntar al principio)
-- vendedor_tipo: particular / profesional
-- fecha_compra_entrega
+## Reglas clave
 
-### Problema
-- fecha_aparicion_fallo
-- sintomas_principales (texto corto)
-- gravedad: uso_normal / uso_limitado / inmovilizado / riesgo_seguridad
-- detectabilidad_previas: evidente / dudoso / oculto
+### 1. El caso tiene identificador propio
+El identificador interno será `case_id`.
 
-### Economía (lo que mueve la decisión de reclamar)
-- **cuantia_a_reclamar_estimada (€)** ✅ (preguntar al principio)
-- objetivo_cliente: reparación / rebaja / devolución / otro
-- probabilidad_no_compensa (baja/media/alta) [auto por reglas]
+Formato propuesto:
 
-### Evidencias
-- contrato_factura (sí/no + enlace)
-- anuncio (sí/no + enlace)
-- mensajes_vendedor (sí/no + enlace)
-- diagnosis_taller (sí/no + enlace)
-- fotos/videos (sí/no + enlace)
+`AP-AAAA-NNNNNN`
 
-### Comercial
-- precio_ofertado (590/390/290/220)
-- motivo_precio (complexidad / vehiculo<4000 / cuantia<=2000 / rescate)
-- estado_venta: pendiente / ganado / perdido
-- motivo_perdida (presupuesto / no compensa / no encaja / no responde / otro)
-- fecha_followup_programada
+Ejemplo:
 
----
+`AP-2026-000001`
 
-## 2) Pipeline recomendado (estados)
-1) lead_nuevo
-2) cualificacion_pendiente
-3) llamada_programada
-4) llamada_realizada
-5) oferta_enviada
-6) followup_programado
-7) venta_ganada
-8) pago_confirmado
-9) peritacion_programada
-10) peritacion_realizada
-11) informe_generado_ia
-12) revision_perito
-13) informe_enviado
-14) caso_cerrado
+### 2. El teléfono identifica al contacto
+El teléfono es una clave fuerte del contacto, pero no una clave única del caso.
 
----
+Esto evita problemas cuando:
 
-## 3) Orden de preguntas (para formularios/bot)
-Orden ideal para reducir “no compensa” y ahorrar tiempo humano:
-1) vendedor (particular/profesional)
-2) fecha compra
-3) **precio compra vehículo**
-4) **cuantía a reclamar estimada**
-5) gravedad (¿se puede usar?)
-6) síntomas principales
-7) ubicación del coche
-8) documentación disponible (checklist)
-9) teléfono/email
+- un mismo cliente abre varios asuntos
+- un abogado trae varios casos
+- se escribe desde el teléfono de otra persona
+- cambia el número del cliente
 
----
+### 3. El caso contiene timeline
+Toda interacción relevante debe quedar registrada en el histórico del caso.
 
-## 4) Regla automática de precio (para bot/CRM)
-- cuantía ≤ 2.000€ → candidato a 220€
-- vehículo < 4.000€ → candidato a 290€
-- si ambos → 220€
-- resto → 390€ por defecto (salvo “complex”)
+## Campos principales del caso
 
-> El closer puede subir/bajar según complejidad real, pero el sistema propone un default.
+### Metadatos
+- `case_id`
+- `created_at`
+- `updated_at`
+
+### Estado
+- `status_pipeline`
+- `qualification_status`
+- `close_reason`
+
+### Origen
+- `source.channel`
+- `source.campaign`
+- `source.form_name`
+- `source.lead_id`
+
+### Contacto
+- `contact.name`
+- `contact.phone_e164`
+- `contact.phone_raw`
+- `contact.email`
+- `contact.province`
+- `contact.role`
+
+### Vehículo
+- `vehicle.plate`
+- `vehicle.make`
+- `vehicle.model`
+- `vehicle.version`
+- `vehicle.vin`
+- `vehicle.km`
+
+### Resumen jurídico/comercial preliminar
+- `case_summary.seller_type`
+- `case_summary.purchase_date`
+- `case_summary.problem_summary`
+- `case_summary.claim_goal`
+- `case_summary.urgency_level`
+
+### Timeline
+Lista ordenada de eventos del caso.
+
+### Tasks
+Tareas abiertas o cerradas asociadas al caso.
+
+### Documents
+Metadatos de documentos subidos o generados.
+
+## Estados operativos propuestos
+
+### `status_pipeline`
+- `nuevo`
+- `pendiente_revision`
+- `pendiente_documentacion`
+- `precalificado`
+- `descartado`
+- `llamada_programada`
+- `presupuesto_enviado`
+- `aceptado`
+- `peritacion_agendada`
+- `peritacion_realizada`
+- `informe_en_redaccion`
+- `informe_enviado`
+- `facturado`
+- `pagado`
+- `cerrado_ganado`
+- `cerrado_perdido`
+
+### `qualification_status`
+- `sin_revisar`
+- `apto`
+- `dudoso`
+- `no_apto`
+
+## Ejemplo resumido
+
+Ver ejemplo completo en:
+
+- `crm/examples/caso_ejemplo.json`

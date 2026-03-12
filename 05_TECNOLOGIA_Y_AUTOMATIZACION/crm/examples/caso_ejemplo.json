@@ -1,0 +1,52 @@
+{
+  "case_id": "AP-2026-000001",
+  "created_at": "2026-03-12T18:22:00Z",
+  "updated_at": "2026-03-12T18:22:00Z",
+  "status_pipeline": "pendiente_revision",
+  "qualification_status": "sin_revisar",
+  "close_reason": null,
+  "source": {
+    "channel": "meta_lead_form",
+    "campaign": "meta_vicios_ocultos_v1",
+    "form_name": "Filtro inicial",
+    "lead_id": "1234567890"
+  },
+  "contact": {
+    "name": "Juan Pérez",
+    "phone_e164": "+34600111222",
+    "phone_raw": "600111222",
+    "email": "juan@example.com",
+    "province": "Madrid",
+    "role": "comprador"
+  },
+  "vehicle": {
+    "plate": "1234ABC",
+    "make": "Volkswagen",
+    "model": "Golf",
+    "version": null,
+    "vin": null,
+    "km": null
+  },
+  "case_summary": {
+    "seller_type": "profesional",
+    "purchase_date": "2026-03-01",
+    "problem_summary": "Avería de caja de cambios a los pocos días",
+    "claim_goal": "Valorar viabilidad de reclamación",
+    "urgency_level": "media"
+  },
+  "timeline": [
+    {
+      "event_id": "evt_0001",
+      "type": "meta_form_submitted",
+      "channel": "meta_form",
+      "created_at": "2026-03-12T18:22:00Z",
+      "created_by": "system",
+      "text": "Lead recibido desde formulario de Meta",
+      "payload": {
+        "lead_id": "1234567890"
+      }
+    }
+  ],
+  "tasks": [],
+  "documents": []
+}
