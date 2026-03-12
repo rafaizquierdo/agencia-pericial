@@ -1,0 +1,15 @@
+{
+  "event_id": "evt_0012",
+  "type": "followup_sent",
+  "channel": "whatsapp",
+  "created_at": "2026-03-13T10:15:00Z",
+  "created_by": "rafa",
+  "text": "Se solicita al cliente contrato de compraventa y factura de reparación",
+  "payload": {
+    "next_step": "esperar_documentacion",
+    "expected_documents": [
+      "contrato",
+      "factura_reparacion"
+    ]
+  }
+}
