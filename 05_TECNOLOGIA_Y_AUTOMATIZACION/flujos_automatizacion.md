@@ -1,59 +1,132 @@
-# Flujos de automatización
+# Flujos de automatización — campaña Meta v1
 
 ## Objetivo
+Definir cómo entra un lead desde Meta hasta quedar registrado y operativo dentro del CRM.
 
-Definir cómo entran y evolucionan los casos en el CRM sin depender de memoria manual ni de copiar y pegar datos entre herramientas.
+## Flujo principal
+### 1. Captación
+- el usuario ve el anuncio en Meta
+- abre el formulario instantáneo
+- completa y envía el formulario
 
-## Flujo 1: entrada desde formulario de Meta
+### 2. Tránsito de datos
+- Meta entrega el lead a Zapier
+- Zapier normaliza el payload
+- Zapier hace `POST` a `https://ap-crm.rafaizquierdo.es/api/save_meta_lead.php`
 
-1. El usuario ve un anuncio en Meta.
-2. El usuario completa el formulario de lead.
-3. Meta entrega el lead a Zapier.
-4. Zapier hace `POST` a `save_meta_lead.php`.
-5. El backend:
-   - valida el token de entrada
-   - comprueba duplicados por `lead_id`
-   - normaliza teléfono
-   - crea o vincula contacto
-   - crea caso nuevo o añade evento según reglas
-   - registra evento `meta_form_submitted`
-   - asigna estado inicial
+### 3. Ingesta en CRM
+El endpoint:
+- valida token
+- valida estructura mínima
+- revisa `lead_id`
+- evita duplicados
+- crea caso nuevo o vincula al existente
+- registra evento `meta_form_submitted`
+- deja el caso en estado inicial `nuevo`
 
-## Flujo 2: recontacto manual desde CRM
+### 4. Revisión humana
+- se revisa el lead en CRM
+- se decide:
+  - apto para llamada
+  - pedir más información
+  - descartar
 
-1. El operador abre un caso.
-2. Añade una nota o seguimiento.
-3. Se crea un evento en timeline.
-4. Si procede, se genera tarea de seguimiento.
+### 5. Llamada y venta
+- si encaja, se llama
+- se completa información económica
+- se registra resultado
+- se oferta
+- se deja seguimiento o cierre
 
-## Flujo 3: actualización de estado
+## Payload lógico esperado desde Zapier
+```json
+{
+  "source": {
+    "channel": "meta_lead_form",
+    "campaign": "AP | Leads | Vicios ocultos | ES | Form v1",
+    "adset": "ES | Broad | 25-65 | Form v1",
+    "ad_name": "Ad 1 | Dolor | Avería tras compra",
+    "form_name": "AP | Vicios ocultos | Filtro inicial v1",
+    "lead_id": "1234567890"
+  },
+  "contact": {
+    "name": "Juan Prueba",
+    "phone": "600111222",
+    "email": "juan@test.com",
+    "province": "Madrid"
+  },
+  "vehicle": {
+    "plate": "1234ABC"
+  },
+  "case_summary": {
+    "purchase_window": "menos_30_dias",
+    "seller_type": "profesional",
+    "problem_type": "motor",
+    "vehicle_usable": "usable_con_fallos",
+    "documents_available": "tengo_algo",
+    "problem_summary": "testigo motor y tirones a la semana"
+  }
+}
+```
 
-1. El operador cambia el estado del caso.
-2. El backend valida el nuevo estado.
-3. Se actualiza el JSON del caso.
-4. Se añade un evento interno de cambio de estado.
-5. Se actualizan índices auxiliares.
+## Campos del formulario que entran al CRM
+- nombre
+- teléfono
+- email
+- provincia
+- rango de antigüedad de compra
+- tipo de vendedor
+- tipo de problema
+- estado de uso del vehículo
+- documentación disponible
+- matrícula
+- resumen del problema
 
-## Flujo 4: subida de documentación
+## Campos que NO llegan del formulario y deben completarse después
+- precio de compra del vehículo
+- cuantía estimada a reclamar
+- fecha exacta de aparición del fallo
+- diagnosis/presupuesto de taller detallado
+- objetivo económico del cliente
+- precio ofertado
 
-1. El operador sube archivos vinculados al caso.
-2. El backend guarda el archivo en carpeta protegida o controlada.
-3. El caso registra el documento en el array `documents`.
-4. Se añade evento `document_uploaded`.
+## Eventos de timeline mínimos
+- `meta_form_submitted`
+- `lead_reviewed`
+- `call_attempted`
+- `call_completed`
+- `documentation_requested`
+- `documentation_received`
+- `quote_sent`
+- `lead_discarded`
 
-## Flujo 5: automatizaciones con OpenClaw
+## Reglas de deduplicación
+### Duplicado fuerte
+Si entra el mismo `lead_id`, no crear caso nuevo.
 
-OpenClaw no accederá directamente a los JSON internos.  
-OpenClaw consumirá endpoints definidos por la API del CRM para:
+### Duplicado probable
+Si cambia `lead_id` pero coincide teléfono:
+- revisar si es el mismo caso
+- si lo es, añadir evento
+- si no lo es, crear caso nuevo vinculado al mismo contacto
 
-- leer casos concretos
-- añadir eventos
-- crear tareas
-- marcar estados si se le autoriza
+## Errores que deben dejar traza
+- token inválido
+- payload mal formado
+- lead sin teléfono
+- escritura fallida
+- índice inconsistente
+- lead duplicado
 
-## Reglas generales
+## Estado inicial recomendado
+- `nuevo`
 
-- toda automatización debe dejar rastro en timeline o log
-- toda escritura debe pasar por backend
-- toda integración externa debe autenticarse con token
-- no se debe modificar manualmente el JSON salvo mantenimiento excepcional
+## Estado tras primera revisión
+- `pendiente_revision`
+- `pendiente_documentacion`
+- `precalificado`
+- `descartado`
+
+## Principio operativo
+El CRM es la fuente operativa de verdad.
+Ni Meta ni Zapier son el sistema de trabajo; solo son canales de entrada.

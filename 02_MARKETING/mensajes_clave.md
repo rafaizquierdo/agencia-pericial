@@ -1,58 +1,102 @@
-# Mensajes clave (marketing) — intención > perfil
+# Mensajes clave (marketing) — campaña Meta v1
 
-Contexto: esto no es un producto “de estilo de vida”. Es un evento puntual.
-No buscamos “gente que le gustan los coches”; buscamos gente con INTENCIÓN: problema + urgencia.
+## Contexto
+Esto no es un producto aspiracional ni una compra por impulso.
+Es una necesidad puntual, emocional y cara en tiempo mental para quien la sufre.
 
----
+El lead no llega pensando:
+> “quiero un informe pericial”
 
-## 1) Cómo llega el lead (realidad)
-- Busca “vicios ocultos coche”, “reclamar vendedor avería”, “me han estafado coche ocasión”.
-- Pregunta a ChatGPT “qué hago si…”
-- Ve un anuncio, pero igualmente necesita VALIDAR hablando con humano.
+Llega pensando:
+> “me han vendido un problema y no sé si estoy jodido o si puedo hacer algo”
 
-Conclusión: el gancho no es “marca”, es:
-- **urgencia**
-- **miedo a perder dinero**
-- **necesidad de que un experto confirme que no están locos**
+## Qué activa la respuesta
+Los disparadores reales son:
+- urgencia
+- miedo a perder dinero
+- sensación de haber sido engañado
+- necesidad de validación técnica
+- deseo de hablar con alguien que no le venda humo
 
----
+## Promesa correcta
+- “revisamos si tu caso encaja”
+- “te decimos si compensa moverlo”
+- “criterio técnico antes de que sigas gastando dinero”
+- “si no lo vemos claro, te lo diremos”
 
-## 2) Promesa correcta (sin meter la pata legal)
-- “Un perito inspecciona tu coche y te damos un informe firmado.”
-- “Te decimos si encaja y si compensa.”
-- “No vendemos humo: no garantizamos ganar, garantizamos rigor técnico.”
+## Promesa incorrecta
+- “vas a ganar seguro”
+- “te devolvemos el dinero”
+- “te conseguimos una indemnización”
+- “caso ganado”
+- “reclama ya y cobra”
 
----
+## Posicionamiento verbal
+No somos:
+- un despacho que promete resultados
+- un chatbot jurídico
+- un simple taller que opina
 
-## 3) CTA que mejor encaja con tu experiencia
-- “Cuéntanos tu caso y te llamamos”
-- “Habla 10 min con un perito”
-- “Te decimos si compensa antes de que gastes más”
+Somos:
+- revisión técnica con criterio pericial
+- filtro serio antes de seguir
+- apoyo para decidir si merece la pena avanzar
 
----
+## Ángulos principales para anuncios
+### 1. Dolor
+Has comprado un coche y al poco tiempo aparece una avería seria.
 
-## 4) Preguntas en el formulario (para filtrar ‘no compensa’)
-Las primeras:
-1) ¿Particular o profesional?
-2) ¿Fecha compra?
-3) **¿Precio de compra del vehículo?**
-4) **¿Cuánto crees que deberías reclamar? (aprox.)**
-5) ¿Se puede usar el coche?
+### 2. Validación
+No sabes si es mala suerte, desgaste normal o un problema reclamable.
 
-Esto reduce:
-- llamadas eternas,
-- y leads que luego dicen “ah… no me compensa”.
+### 3. Criterio
+Antes de gastar más dinero, conviene revisar si el caso encaja de verdad.
 
----
+### 4. Honestidad
+No todos los casos merecen liarse. Precisamente por eso filtramos.
 
-## 5) Mensajes por segmento económico (sin decirlo explícito)
-- Vehículo barato: “Solución clara y asequible. No te compliques.”
-- Cuantía baja (≤ 2.000€): “Reclama sin que los costes se coman el resultado.”
-- Caso serio: “Informe robusto para negociar o ir con abogado.”
+## CTA correctos
+- “Cuéntame tu caso”
+- “Rellena el formulario”
+- “Primera revisión del caso”
+- “Te diré si compensa revisarlo”
 
----
+## CTA a evitar
+- “Demanda ya”
+- “Recupera tu dinero”
+- “Gana tu reclamación”
+- “Consigue indemnización”
 
-## 6) Hipótesis a testear (para decidir IA vs closer)
-- H1: Formulario corto + llamada humana = más cierres pero más coste.
-- H2: WhatsApp IA (pre-cualifica) + llamada solo a los buenos = menos coste + más eficiencia.
-Métrica: close rate neto y coste por venta.
+## V1 del formulario: criterio de diseño
+En el formulario inicial pedimos solo lo necesario para:
+- localizar al lead
+- entender si el problema parece serio
+- saber si hay compra reciente
+- y detectar si existe base mínima para seguir
+
+No pedimos en Meta v1:
+- precio de compra del vehículo
+- cuantía estimada a reclamar
+
+Esos datos siguen siendo importantes, pero los desplazamos a la llamada para no destruir la conversión del formulario.
+
+## Campos que sí deben orientar el mensaje
+- compra reciente
+- vendedor particular/profesional
+- problema relevante
+- coche usable o no
+- documentación disponible
+
+## Frases ancla
+- “No todos los casos encajan”
+- “Te diré si merece la pena revisarlo”
+- “Criterio técnico antes de seguir gastando”
+- “Primero filtramos, luego hablamos”
+
+## Tono
+- claro
+- directo
+- serio
+- tranquilizador
+- sin dramatismo barato
+- sin humo legal
