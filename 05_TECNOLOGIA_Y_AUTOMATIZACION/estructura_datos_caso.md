@@ -45,11 +45,6 @@ Que humanos y agentes recojan SIEMPRE lo mismo, en el mismo orden, para:
 - `vehicle_usable`
 - `problem_summary`
 
-### Economía
-- `cuantia_a_reclamar_estimada`
-- `objetivo_cliente`
-- `probabilidad_no_compensa`
-
 ### Evidencias
 - `documentacion_disponible`
 - `contrato_factura`
@@ -57,6 +52,11 @@ Que humanos y agentes recojan SIEMPRE lo mismo, en el mismo orden, para:
 - `mensajes_vendedor`
 - `diagnosis_taller`
 - `fotos_videos`
+
+### Economía
+- `cuantia_a_reclamar_estimada`
+- `objetivo_cliente`
+- `probabilidad_no_compensa`
 
 ### Comercial
 - `qualification_status`
@@ -94,17 +94,17 @@ Que humanos y agentes recojan SIEMPRE lo mismo, en el mismo orden, para:
 6. vendedor
 7. tipo de problema
 8. si el coche se puede usar
-9. documentación disponible
-10. matrícula opcional
-11. resumen breve del problema opcional
+9. resumen breve del problema opcional
 
-### En llamada de cualificación
-1. precio de compra del vehículo
-2. cuantía aproximada a reclamar
-3. fecha real de aparición del fallo
-4. detalles de diagnosis / taller
-5. objetivo económico del cliente
-6. presupuesto a ofrecer
+### En llamada de cualificación o seguimiento
+1. matrícula
+2. documentación disponible
+3. precio de compra del vehículo
+4. cuantía aproximada a reclamar
+5. fecha real de aparición del fallo
+6. detalles de diagnosis / taller
+7. objetivo económico del cliente
+8. presupuesto a ofrecer
 
 ## 4) Regla operativa de precios
 - cuantía ≤ 2.000 € → candidato a `220 €`
