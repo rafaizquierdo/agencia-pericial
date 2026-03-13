@@ -77,15 +77,17 @@ En el formulario inicial pedimos solo lo necesario para:
 No pedimos en Meta v1:
 - precio de compra del vehículo
 - cuantía estimada a reclamar
+- matrícula
+- documentación disponible
 
-Esos datos siguen siendo importantes, pero los desplazamos a la llamada para no destruir la conversión del formulario.
+Esos datos siguen siendo importantes, pero los desplazamos a la llamada o seguimiento para no destruir la conversión del formulario.
 
 ## Campos que sí deben orientar el mensaje
 - compra reciente
 - vendedor particular/profesional
 - problema relevante
 - coche usable o no
-- documentación disponible
+- resumen del problema si el lead lo deja
 
 ## Frases ancla
 - “No todos los casos encajan”

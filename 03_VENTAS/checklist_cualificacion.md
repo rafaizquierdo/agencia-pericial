@@ -24,8 +24,6 @@ Antes de llamar, revisar en el CRM:
 - vendedor particular/profesional/no claro
 - tipo de problema
 - si el coche se puede usar
-- nivel de documentación
-- matrícula si la dejó
 - resumen del problema si lo dejó
 
 ## B. Datos mínimos que hay que completar sí o sí en llamada
@@ -34,6 +32,8 @@ Sin esto no se avanza:
 - fecha aparición del fallo
 - síntomas principales en 1–2 frases
 - ubicación del coche
+- matrícula
+- ¿qué documentación tiene realmente?
 - ¿hay diagnosis o presupuesto de taller?
 - precio de compra del vehículo (€)
 - cuantía aproximada que el cliente querría reclamar (€)

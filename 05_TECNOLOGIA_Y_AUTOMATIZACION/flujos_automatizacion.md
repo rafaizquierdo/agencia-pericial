@@ -55,15 +55,11 @@ El endpoint:
     "email": "juan@test.com",
     "province": "Madrid"
   },
-  "vehicle": {
-    "plate": "1234ABC"
-  },
   "case_summary": {
     "purchase_window": "menos_30_dias",
     "seller_type": "profesional",
     "problem_type": "motor",
     "vehicle_usable": "usable_con_fallos",
-    "documents_available": "tengo_algo",
     "problem_summary": "testigo motor y tirones a la semana"
   }
 }
@@ -78,11 +74,11 @@ El endpoint:
 - tipo de vendedor
 - tipo de problema
 - estado de uso del vehículo
-- documentación disponible
-- matrícula
 - resumen del problema
 
 ## Campos que NO llegan del formulario y deben completarse después
+- matrícula
+- documentación disponible
 - precio de compra del vehículo
 - cuantía estimada a reclamar
 - fecha exacta de aparición del fallo

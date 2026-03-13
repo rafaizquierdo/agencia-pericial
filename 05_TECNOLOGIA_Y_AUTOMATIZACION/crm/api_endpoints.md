@@ -64,15 +64,11 @@ Recibe el lead desde Zapier o futura integración directa con Meta.
     "email": "juan@test.com",
     "province": "Madrid"
   },
-  "vehicle": {
-    "plate": "1234ABC"
-  },
   "case_summary": {
     "purchase_window": "menos_30_dias",
     "seller_type": "profesional",
     "problem_type": "motor",
     "vehicle_usable": "usable_con_fallos",
-    "documents_available": "tengo_algo",
     "problem_summary": "testigo motor y tirones a la semana"
   }
 }

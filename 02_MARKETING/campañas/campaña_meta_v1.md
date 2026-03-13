@@ -10,7 +10,7 @@ Generar leads cualificados de personas que han comprado un vehículo recientemen
    - compra reciente,
    - problema relevante,
    - posibilidad de contacto,
-   - y un mínimo de documentación o contexto.
+   - y un mínimo de contexto para revisión.
 4. El CRM debe capturar el lead desde el minuto 1 para poder medir calidad real, no solo coste por lead.
 
 ## Estructura de campaña
@@ -72,7 +72,7 @@ La promesa correcta es:
 ### Texto principal
 ¿Has comprado un coche de ocasión y te ha salido una avería importante poco después?
 
-No todos los casos encajan, pero en muchos sí merece la pena revisar documentación, avería y contexto de la compra.
+No todos los casos encajan, pero en muchos sí merece la pena revisar avería y contexto de la compra.
 
 Completa el formulario y haré una primera valoración del caso.
 
@@ -113,19 +113,19 @@ Nombre interno:
 - ¿a quién compraste el vehículo?
 - ¿qué tipo de problema ha aparecido?
 - ¿el vehículo se puede usar ahora mismo?
-- ¿tienes documentación del caso?
 
 ### Opcionales
 - email
-- matrícula
 - resume el problema en una frase
 
 ## Nota importante sobre fricción
 En esta v1 NO se piden en el formulario:
 - precio de compra del vehículo
 - cuantía estimada a reclamar
+- matrícula
+- documentación disponible
 
-Estos dos datos siguen siendo críticos para ventas, pero se desplazan a la llamada de cualificación para no elevar demasiado la fricción inicial del formulario.
+Estos datos siguen siendo críticos para ventas y operación, pero se desplazan a la llamada de cualificación o al seguimiento posterior para no elevar demasiado la fricción inicial del formulario.
 
 ## Lógica operativa del funnel
 1. Usuario ve anuncio
@@ -175,6 +175,7 @@ Optimizar por:
 - conexión vía Zapier
 - CRM propio en IONOS
 - validación humana tras entrada
+- test dummy CRM/Zapier superado correctamente
 
 ### v2 potencial
 - más lógica de exclusión
